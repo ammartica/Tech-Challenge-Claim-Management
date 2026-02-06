@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   resources :users, only: [:create]
   resources :patients
   resources :claims
-  resources :claim_imports, only: [:index, :show, :create]
+  resources :claim_imports, only: [:index, :show, :create] do
+    post :import, on: :collection
+
+  end
 
   get "up" => "rails/health#show", as: :rails_health_check
 

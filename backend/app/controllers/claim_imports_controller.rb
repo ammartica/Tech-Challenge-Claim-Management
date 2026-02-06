@@ -1,3 +1,5 @@
+require 'csv'
+
 class ClaimImportsController < ApplicationController
   before_action :set_claim_import, only: [:show]
 
@@ -22,6 +24,48 @@ class ClaimImportsController < ApplicationController
       render json: { errors: @claim_import.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
+
+def import
+  # Expecting file upload via params[:file]
+  file = params[:file]
+  return render json: { error: "No file uploaded" }, status: :bad_request unless file
+
+  # Create ClaimImport record
+  claim_import = ClaimImport.create!(
+    file_name: file.original_filename,
+    total_records: 0,
+    processed_records: 0,
+    status: "pending"
+  )
+
+  # Process CSV rows
+  processed = 0
+  CSV.foreach(file.path, headers: true) do |row|
+    patient = Patient.find_or_create_by!(
+      first_name: row['patient_first_name'],
+      last_name:  row['patient_last_name'],
+      dob:        row['patient_dob']
+    )
+
+    Claim.create!(
+      claim_import: claim_import,
+      patient:      patient,
+      claim_number: row['claim_number'],
+      service_date: row['service_date'],
+      amount:       row['amount'],
+      status:       row['status']
+    )
+    processed += 1
+  end
+
+  claim_import.update(total_records: processed, processed_records: processed, status: "completed")
+  render json: { message: "CSV imported successfully", claim_import_id: claim_import.id }
+rescue => e
+  claim_import.update(status: "failed") if claim_import
+  render json: { error: e.message }, status: :unprocessable_entity
+end
+
 
   #helper methods
   private
