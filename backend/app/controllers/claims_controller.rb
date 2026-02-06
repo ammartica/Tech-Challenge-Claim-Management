@@ -1,3 +1,5 @@
+require "csv"
+
 class ClaimsController < ApplicationController
   before_action :set_claim, only: [:show, :update, :destroy]
 
@@ -32,6 +34,28 @@ class ClaimsController < ApplicationController
     @claim.destroy
     head :no_content
   end
+
+  def export
+  claims = Claim.includes(:patient).order(created_at: :desc)
+
+  csv_data = CSV.generate(headers: true) do |csv|
+    csv << ["claim_number", "patient_name", "service_date", "amount", "status"]
+
+    claims.find_each do |claim|
+      csv << [
+        claim.claim_number,
+        "#{claim.patient.first_name} #{claim.patient.last_name}",
+        claim.service_date,
+        claim.amount,
+        claim.status
+      ]
+    end
+  end
+
+  send_data csv_data,
+            filename: "claims_export_#{Time.now.strftime('%Y%m%d_%H%M%S')}.csv",
+            type: "text/csv"
+end
 
   #helper methods
   private

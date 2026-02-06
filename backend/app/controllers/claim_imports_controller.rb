@@ -13,8 +13,6 @@ class ClaimImportsController < ApplicationController
     render json: @claim_import, include: :claims
   end
 
-  #todo: add update to change claim status??
-
   # todo: this will be used to upload CSVs later
   def create
     @claim_import = ClaimImport.new(claim_import_params)
