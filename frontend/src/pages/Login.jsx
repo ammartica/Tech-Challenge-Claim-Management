@@ -1,6 +1,6 @@
 import { Button, Form, Input, Card } from "antd";
 
-const Login = () => {
+const Login = ({ onLoggedIn }) => {
   const onFinish = async (values) => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
       method: "POST",
@@ -11,7 +11,7 @@ const Login = () => {
     const data = await res.json();
     if (data.token) {
       localStorage.setItem("token", data.token);
-      alert("Logged in!");
+      onLoggedIn?.();
     } else {
       alert("Login failed");
     }
@@ -19,7 +19,7 @@ const Login = () => {
 
   return (
     <div style={{ display: "flex", height: "100vh", justifyContent: "center", alignItems: "center" }}>
-      <Card title="Login" style={{ width: 300 }}>
+      <Card title="Login" style={{ width: 320 }}>
         <Form onFinish={onFinish}>
           <Form.Item name="email" rules={[{ required: true }]}>
             <Input placeholder="Email" />
