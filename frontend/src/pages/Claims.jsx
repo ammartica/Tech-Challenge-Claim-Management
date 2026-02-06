@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Table, Button, Space } from "antd";
 import { apiGet } from "../api";
 
-const Claims = () => {
+const Claims = ({ onGoImport }) => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -68,6 +68,7 @@ const Claims = () => {
       <Space style={{ marginBottom: 12 }}>
         <Button onClick={loadClaims}>Refresh</Button>
         <Button type="primary" onClick={exportCsv}>Export CSV</Button>
+        <Button onClick={onGoImport}>Import CSV</Button>
         <Button danger onClick={logout}>Logout</Button>
       </Space>
 
