@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 
+  file_name: MyString
+  total_records: 1
+  processed_records: 1
+  status: MyString
+  created_at: 2026-02-06 14:01:46
+
+two:
+  id: 
+  file_name: MyString
+  total_records: 1
+  processed_records: 1
+  status: MyString
+  created_at: 2026-02-06 14:01:46
