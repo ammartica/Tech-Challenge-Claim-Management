@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Table, Button, Space } from "antd";
+import { Table, Button, Space, Card, Typography, Tag } from "antd";
 import { apiGet } from "../api";
 
 const Claims = ({ onGoImport }) => {
@@ -44,12 +44,14 @@ const Claims = ({ onGoImport }) => {
     {
       title: "Claim #",
       dataIndex: "claim_number",
-      sorter: (a, b) => (a.claim_number || "").localeCompare(b.claim_number || ""),
+      sorter: (a, b) =>
+        (a.claim_number || "").localeCompare(b.claim_number || ""),
     },
     {
       title: "Service Date",
       dataIndex: "service_date",
-      sorter: (a, b) => (a.service_date || "").localeCompare(b.service_date || ""),
+      sorter: (a, b) =>
+        (a.service_date || "").localeCompare(b.service_date || ""),
     },
     {
       title: "Amount",
@@ -59,25 +61,43 @@ const Claims = ({ onGoImport }) => {
     {
       title: "Status",
       dataIndex: "status",
+      render: (status) => {
+        const colors = {
+          pending: "gold",
+          submitted: "blue",
+          denied: "red",
+          paid: "green",
+        };
+        return <Tag color={colors[status] || "default"}>{status}</Tag>;
+      },
       sorter: (a, b) => (a.status || "").localeCompare(b.status || ""),
     },
   ];
 
   return (
-    <div style={{ padding: 16 }}>
-      <Space style={{ marginBottom: 12 }}>
-        <Button onClick={loadClaims}>Refresh</Button>
-        <Button type="primary" onClick={exportCsv}>Export CSV</Button>
-        <Button onClick={onGoImport}>Import CSV</Button>
-        <Button danger onClick={logout}>Logout</Button>
-      </Space>
+    <div style={{ padding: 24 }}>
+      <Typography.Title level={3}>Claims</Typography.Title>
 
-      <Table
-        rowKey="id"
-        loading={loading}
-        columns={columns}
-        dataSource={rows}
-      />
+      <Card>
+        <Space style={{ marginBottom: 16 }}>
+          <Button onClick={loadClaims}>Refresh</Button>
+          <Button type="primary" onClick={exportCsv}>
+            Export CSV
+          </Button>
+          <Button onClick={onGoImport}>Import CSV</Button>
+          <Button danger onClick={logout}>
+            Logout
+          </Button>
+        </Space>
+
+        <Table
+          rowKey="id"
+          loading={loading}
+          columns={columns}
+          dataSource={rows}
+          pagination={{ pageSize: 10 }}
+        />
+      </Card>
     </div>
   );
 };
