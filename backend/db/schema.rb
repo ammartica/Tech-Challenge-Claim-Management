@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_06_140146) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_06_172155) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,6 +29,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_06_140146) do
     t.decimal "amount"
     t.string "status"
     t.datetime "created_at"
+    t.uuid "claim_import_id"
+    t.index ["claim_import_id"], name: "index_claims_on_claim_import_id"
     t.index ["claim_number"], name: "index_claims_on_claim_number", unique: true
   end
 
@@ -47,4 +49,5 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_06_140146) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "claims", "claim_imports"
 end
