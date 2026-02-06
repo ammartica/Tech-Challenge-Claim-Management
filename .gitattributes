@@ -1,0 +1,2 @@
+#accept text as is to avoid lf to crfl conversion
+* text=auto eol=lf
