@@ -6,6 +6,8 @@ rm -f tmp/pids/server.pid
 # If running the rails server then create or migrate existing database
 if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
   ./bin/rails db:prepare
+  #force rails to listen on all interfaces (trying to fix windows host issue)
+  exec ./bin/rails server -b 0.0.0.0 -p 3000
 fi
 
 exec "${@}"
