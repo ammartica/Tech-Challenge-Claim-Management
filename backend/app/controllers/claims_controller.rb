@@ -1,6 +1,7 @@
 require "csv"
 
 class ClaimsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_claim, only: [:show, :update, :destroy]
 
   # get all

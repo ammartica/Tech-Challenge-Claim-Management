@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :claim_imports, only: [:index, :show, :create] do
     post :import, on: :collection
   end
+  post "/login", to: "auth#login"
 
   get "up" => "rails/health#show", as: :rails_health_check
 

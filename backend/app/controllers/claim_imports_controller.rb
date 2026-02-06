@@ -1,6 +1,7 @@
 require 'csv'
 
 class ClaimImportsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_claim_import, only: [:show]
 
   # get all 
