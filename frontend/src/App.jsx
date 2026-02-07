@@ -61,7 +61,7 @@ function App() {
           selectedKeys={[page]}
           items={items}
           onClick={(e) => setPage(e.key)}
-          style={{ flex: 1 }}
+          style={{ flex: 1, marginLeft: 24 }}
         />
 
         <Space>

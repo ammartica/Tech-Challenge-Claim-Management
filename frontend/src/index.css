@@ -7,3 +7,16 @@ body {
   min-width: 320px;
 }
 
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: #5d6472 !important;
+}
+
+.export-btn {
+  background-color: #5d6472 !important; 
+}
+
+.export-btn:hover,
+.export-btn:focus {
+  background-color: #838b9a !important;
+}
+

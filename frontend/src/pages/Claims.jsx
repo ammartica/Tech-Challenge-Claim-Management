@@ -76,7 +76,7 @@ const Claims = () => {
       <Card>
         <Space style={{ marginBottom: 16 }}>
           <Button onClick={loadClaims}>Refresh</Button>
-          <Button type="primary" onClick={exportCsv}>
+          <Button type="primary" onClick={exportCsv} className="export-btn">
             Export CSV
           </Button>
         </Space>
