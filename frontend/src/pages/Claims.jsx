@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Table, Button, Space, Card, Typography, Tag } from "antd";
 import { apiGet } from "../api";
 
-const Claims = ({ onGoImport }) => {
+const Claims = () => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,11 +20,6 @@ const Claims = ({ onGoImport }) => {
   useEffect(() => {
     loadClaims();
   }, []);
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    window.location.reload();
-  };
 
   const exportCsv = async () => {
     const res = await apiGet("/claims/export");
@@ -76,7 +71,7 @@ const Claims = ({ onGoImport }) => {
 
   return (
     <div style={{ padding: 24 }}>
-      <Typography.Title level={3}>Claims</Typography.Title>
+      <Typography.Title level={2}>Claims</Typography.Title>
 
       <Card>
         <Space style={{ marginBottom: 16 }}>
@@ -84,13 +79,10 @@ const Claims = ({ onGoImport }) => {
           <Button type="primary" onClick={exportCsv}>
             Export CSV
           </Button>
-          <Button onClick={onGoImport}>Import CSV</Button>
-          <Button danger onClick={logout}>
-            Logout
-          </Button>
         </Space>
 
         <Table
+          size="middle"
           rowKey="id"
           loading={loading}
           columns={columns}

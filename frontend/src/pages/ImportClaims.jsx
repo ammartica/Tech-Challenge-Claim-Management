@@ -37,21 +37,9 @@ const ImportClaims = ({ onDone }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    window.location.reload();
-  };
-
   return (
     <div style={{ padding: 24 }}>
-      <Typography.Title level={3}>Import Claims</Typography.Title>
-
-      <Space style={{ marginBottom: 16 }}>
-        <Button onClick={onDone}>Back to Claims</Button>
-        <Button danger onClick={logout}>
-          Logout
-        </Button>
-      </Space>
+      <Typography.Title level={2}>Import Claims</Typography.Title>
 
       <Card style={{ maxWidth: 520 }}>
         <Typography.Paragraph type="secondary">
