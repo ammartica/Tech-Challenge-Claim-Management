@@ -61,6 +61,13 @@ docker compose exec backend bundle exec rails db:seed
 
 ---
 
+### 2.5 Environment variables
+Create a `.env` file inside the `frontend` directory:
+
+```bash
+cp .env.example .env
+```
+
 ### 3. Start the frontend
 
 ```bash
