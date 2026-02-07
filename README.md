@@ -96,7 +96,7 @@ An example CSV file is provided at:
 backend/sample_claims.csv
 backend/verify_import.csv
 ```
-⚠️ verify_import has a mixture of good and bad data
+IMPORTANT: verify_import has a mixture of good and bad data
 
 ---
 
