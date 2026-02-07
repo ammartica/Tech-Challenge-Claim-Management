@@ -1,4 +1,5 @@
 require 'csv'
+require "fileutils"
 
 class ClaimImportsController < ApplicationController
   before_action :authenticate_user!
@@ -14,7 +15,6 @@ class ClaimImportsController < ApplicationController
     render json: @claim_import, include: :claims
   end
 
-  # todo: this will be used to upload CSVs later
   def create
     @claim_import = ClaimImport.new(claim_import_params)
     if @claim_import.save
@@ -28,6 +28,15 @@ class ClaimImportsController < ApplicationController
 def import
   # Expecting file upload via params[:file]
   file = params[:file]
+  # Make sure upload saves to required folder structure
+  dir = Rails.root.join("claims_uploads", "imports", Date.current.to_s)
+    FileUtils.mkdir_p(dir)
+  timestamp = Time.current.strftime("%Y%m%d_%H%M%S")
+  stored_name = "claims_import_#{timestamp}.csv"
+  stored_path = dir.join(stored_name)
+
+  FileUtils.cp(file.path, stored_path)
+
   return render json: { error: "No file uploaded" }, status: :bad_request unless file
 
   # Create ClaimImport record
@@ -40,7 +49,7 @@ def import
 
   # Process CSV rows
   processed = 0
-  CSV.foreach(file.path, headers: true) do |row|
+  CSV.foreach(stored_path, headers: true) do |row|
     patient = Patient.find_or_create_by!(
       first_name: row['patient_first_name'],
       last_name:  row['patient_last_name'],
