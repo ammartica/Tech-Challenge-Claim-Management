@@ -13,7 +13,7 @@ It is a very simple, three page app that has:
 - Backend generated CSV export file
 - Visualization of correctly imported claims
 
-The app is simple and focuses on the requires use cases.
+The app is simple and focuses on the required use cases.
 
 ---
 
