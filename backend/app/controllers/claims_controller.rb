@@ -37,12 +37,18 @@ class ClaimsController < ApplicationController
   end
 
   def export
+    #query claims, and then query all related patients to avoid extra queries
+    #only get claims and then check patients
   claims = Claim.includes(:patient).order(created_at: :desc)
 
+  #generate csv string in memory, this is the header row
   csv_data = CSV.generate(headers: true) do |csv|
     csv << ["claim_number", "patient_name", "service_date", "amount", "status"]
-
+    #loop through claims
+    #fiendeach instead of each processes records in batches to avoid loading everything
+    #into memory at once
     claims.find_each do |claim|
+      #for each claim, add row to the csv
       csv << [
         claim.claim_number,
         "#{claim.patient.first_name} #{claim.patient.last_name}",
@@ -53,6 +59,10 @@ class ClaimsController < ApplicationController
     end
   end
 
+  #send the file to the browser as a downloadable file
+  #send_data and csv_data are build into rails and come from actionController: 
+  # :dataStreaming, it inherits from application controller, whcih gets it from
+  # actiioncontroller: :base
   send_data csv_data,
             filename: "claims_export_#{Time.now.strftime('%Y%m%d_%H%M%S')}.csv",
             type: "text/csv"

@@ -1,0 +1,6 @@
+patient_first_name,patient_last_name,patient_dob,claim_number,service_date,amount,status
+Lola,Ramos,01/02/2003,800,2000-01-20,10,pending
+Gloria,Ramos,01/02/2003,801,2000-01-20,10,paid
+Ana,Ramos,01/02/2003,802,2000-01-20,10,denied
+Mateo,Ramos,01/02/2003,800,2000-01-20,10,denied
+Frank,No Sirve,01/02/2003,letras,nope,no,dummy

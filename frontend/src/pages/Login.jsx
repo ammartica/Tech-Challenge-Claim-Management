@@ -3,7 +3,15 @@ import { Button, Form, Input, Card, Layout, Typography, message } from "antd";
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
+/*
+summary: collect email + password
+sent them to backend
+store jwt (jason web token)
+trigger authenticated state
+*/
+
 const Login = ({ onLoggedIn }) => {
+  //antd calls this when form submists successfully:
   const onFinish = async (values) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/login`, {

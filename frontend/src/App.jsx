@@ -1,24 +1,3 @@
-// import { useState } from "react";
-// import Login from "./pages/Login";
-// import Claims from "./pages/Claims";
-// import ImportClaims from "./pages/ImportClaims";
-
-// function App() {
-//   const [authed, setAuthed] = useState(!!localStorage.getItem("token"));
-//   const [page, setPage] = useState("claims");
-
-//   if (!authed) return <Login onLoggedIn={() => setAuthed(true)} />;
-
-//   if (page === "import") {
-//     return <ImportClaims onDone={() => setPage("claims")} />;
-//   }
-
-//   return <Claims onGoImport={() => setPage("import")} />;
-// }
-
-// export default App;
-
-
 import { useMemo, useState } from "react";
 import { Layout, Menu, Button, Typography, Space } from "antd";
 import Login from "./pages/Login";
@@ -28,17 +7,23 @@ import ImportClaims from "./pages/ImportClaims";
 const { Header, Content } = Layout;
 
 function App() {
+  //checks if token exists in localStorage
   const [authed, setAuthed] = useState(!!localStorage.getItem("token"));
+  //sets page (state based navigation)
   const [page, setPage] = useState("claims"); // "claims" | "import"
 
+  //reads email to display in header
   const email = useMemo(() => localStorage.getItem("email"), []);
 
+  //logout function removes token and email from storage
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("email");
     window.location.reload();
   };
 
+  //authentication guard
+  //if not logged in, only show login page, after login, re-render and show main layout
   if (!authed) {
     return <Login onLoggedIn={() => setAuthed(true)} />;
   }

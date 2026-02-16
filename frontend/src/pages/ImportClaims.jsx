@@ -2,16 +2,25 @@ import { useState } from "react";
 import { Upload, Button, Card, Space, Typography, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
+/*
+sumamry: lets user select csv file
+sends it to backend
+shows success or error
+ */
+
 const ImportClaims = ({ onDone }) => {
   const [uploading, setUploading] = useState(false);
 
+  //antd uploads automatically but im overriding
   const customRequest = async ({ file, onSuccess, onError }) => {
+      //create multipart form-data request
     setUploading(true);
     try {
       const token = localStorage.getItem("token");
       const formData = new FormData();
       formData.append("file", file);
 
+      //call rails import including jwt and sends file in rquest body
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/claim_imports/import`,
         {

@@ -2,10 +2,28 @@ import { useEffect, useState } from "react";
 import { Table, Button, Space, Card, Typography, Tag } from "antd";
 import { apiGet } from "../api";
 
+/*
+The ImportClaims page uses Ant Design’s Upload component 
+with a customRequest handler to send the CSV file as 
+multipart form data to the backend import endpoint. 
+The JWT is attached for authentication, 
+and success or failure is communicated via Ant Design 
+messages.
+
+
+summary: fetches claims form backend
+//displays them in table
+allows sorting
+allows exporting csv
+*/
 const Claims = () => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  //calls /claims
+  //parses json
+  //stores reulsts in rows
+  //toggles loading state
   const loadClaims = async () => {
     setLoading(true);
     try {
@@ -21,10 +39,15 @@ const Claims = () => {
     loadClaims();
   }, []);
 
+  //calls backend export endpoint
+  //gets file as binary blob
   const exportCsv = async () => {
     const res = await apiGet("/claims/export");
     const blob = await res.blob();
 
+    //creates temporary download link
+    //triggers download
+    //cleans up
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
